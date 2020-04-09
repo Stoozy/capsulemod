@@ -1,6 +1,12 @@
 package com.stoozy.capsulemod;
 
+import com.mojang.datafixers.DSL;
+import com.mojang.datafixers.DataFixer;
+import com.mojang.datafixers.DataFixerBuilder;
+import com.mojang.datafixers.Dynamic;
+import com.mojang.datafixers.schemas.Schema;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,31 +28,19 @@ import net.minecraft.world.server.ServerWorld;
 import javax.swing.text.Position;
 
 public class CapsuleItem extends Item {
-
+    CapsuleGen gen = new CapsuleGen();
     public CapsuleItem(Properties p_i48487_1_) {
         super(p_i48487_1_);
     }
 
 
-    public boolean load(TemplateManager templateManager, World world, PlayerEntity player){
+    @Override
+    public boolean onBlockStartBreak(ItemStack itemstack, BlockPos pos, PlayerEntity player) {
+        World world = player.getEntityWorld();
+        MinecraftServer server = world.getServer();
 
-        try{
-            Template template = templateManager.getTemplate(new ResourceLocation("capsulemod","house"));
-        }catch (ResourceLocationException  exception){
-            System.out.println(exception);
-            return false;
-        }
-        return true;
+//        TemplateManager templateManager = new TemplateManager(server, "/structure/house.nbt", null );
 
+        return false;
     }
-
-    public void addStructure(Template template, World world, BlockPos pos ){
-        PlacementSettings settings = new PlacementSettings();
-        template.addBlocksToWorld(world, pos, settings);
-    }
-
-
-
-
-
 }
